@@ -1,0 +1,35 @@
+<!-- views/edit.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Task</title>
+    <link rel="stylesheet" href="/css/style.css"> <!-- Relative to public folder -->
+</head>
+<body>
+   <!-- views/edit.ejs (relevant parts) -->
+    <div class="box">
+        <% if (taskToEdit) { %>
+            <form action="/edit/<%= taskToEdit.id %>" method="POST">
+                <div class="item">
+                    <label for="updatedTaskName">Task Name:</label>
+                    <input type="text" id="updatedTaskName" name="updatedTaskName" value="<%= taskToEdit.name %>" autofocus autocomplete="off">
+                </div>
+                <div class="item">
+                    <label for="updatedTaskPriority">Priority:</label>
+                    <select name="updatedTaskPriority" id="updatedTaskPriority" class="task-priority-select">
+                        <option value="High" <%= taskToEdit.priority === 'High' ? 'selected' : '' %>>High</option>
+                        <option value="Medium" <%= taskToEdit.priority === 'Medium' ? 'selected' : '' %>>Medium</option>
+                        <option value="Low" <%= taskToEdit.priority === 'Low' ? 'selected' : '' %>>Low</option>
+                    </select>
+                </div>
+                <button type="submit" class="edit-submit-btn">Update Task</button>
+                <a href="/" class="cancel-btn">Cancel</a>
+            </form>
+        <% } else { %>
+            <!-- ... (task not found message) ... -->
+        <% } %>
+    </div>
+</body>
+</html>

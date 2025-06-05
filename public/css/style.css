@@ -1,0 +1,437 @@
+/* style.css - CORRECTED & REFACTORED */
+
+/* Basic Reset & Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    background-color: #e4e9fd;
+    background-image: -webkit-linear-gradient(65deg, #A683E3 50%, #E4E9FD 50%);
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Corrected font and added fallbacks */
+    font-size: 100%; /* Makes 1rem = browser default (usually 16px) */
+    /* min-height: 1000px; /* REMOVED - use 100vh for viewport height */
+}
+
+body {
+    display: flex; /* For sticky footer */
+    flex-direction: column; /* For sticky footer */
+    min-height: 100vh; /* For sticky footer */
+    color: #00204a; /* Moved default text color here */
+    font-weight: 200; /* Moved default font-weight here */
+}
+
+/* Main content wrapper for sticky footer */
+.content-wrapper {
+    flex-grow: 1; /* Allows this section to take up available space, pushing footer down */
+}
+
+h1 {
+    color: #000; /* Or inherit if you want it purple from #heading */
+    padding: 0.625rem; /* 10px / 16px */
+    font-weight: normal; /* h1 has strong default weight, adjust if needed */
+}
+
+.box {
+    max-width: 25rem; /* 400px / 16px */
+    margin: 3.125rem auto; /* 50px / 16px */
+    background: white;
+    border-radius: 0.3125rem; /* 5px / 16px */
+    box-shadow: 0.3125rem 0.3125rem 0.9375rem -0.3125rem rgba(0, 0, 0, 0.3); /* 5px 5px 15px -5px */
+}
+
+#heading {
+    background-color: #A683E3;
+    text-align: center;
+}
+
+#heading h1 { /* Make h1 inside #heading purple if desired */
+    color: #fff; /* Example: White text on purple background */
+}
+
+.item-container { /* From previous step for Edit button alignment */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 0.0625rem solid #f1f1f2; /* 1px */
+    padding-left: 0.625rem; /* 10px - for priority border visual */
+}
+.item-container:last-child {
+    border-bottom: 0;
+}
+/* Priority border colors (from previous step) */
+.item-container.priority-high { border-left: 0.3125rem solid red; } /* 5px */
+.item-container.priority-medium { border-left: 0.3125rem solid orange; } /* 5px */
+.item-container.priority-low { border-left: 0.3125rem solid green; } /* 5px */
+
+
+.item {
+    min-height: 4.375rem; /* 70px / 16px */
+    display: flex;
+    align-items: center;
+    /* border-bottom was moved to .item-container */
+    flex-grow: 1; /* Allow item to take space next to edit button */
+}
+
+input[type="checkbox"] {
+    margin: 1.25rem; /* 20px / 16px */
+    /* Consider custom styling checkboxes for better cross-browser look */
+}
+
+input:checked+p {
+    text-decoration: line-through;
+    text-decoration-color: #A683E3;
+}
+
+.item p { /* Specific to p within .item */
+    margin: 0;
+    padding: 1.25rem; /* 20px / 16px */
+    font-size: 1.25rem; /* 20px / 16px */
+    /* font-weight: 200; Already on body */
+    /* color: #00204a; Already on body */
+    word-break: break-word; /* Prevent long words from breaking layout */
+}
+
+/* Forms */
+form { /* General form styling, might be too broad */
+    text-align: center; /* Keep if desired for all forms */
+    /* margin-left: 1.25rem; /* 20px - may not be needed with flex */
+}
+
+.add-task-form,
+.filter-form {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem; /* 10px */
+    padding: 0.625rem; /* Added some padding inside the form */
+}
+
+.filter-form {
+    margin-bottom: 1.25rem; /* 20px */
+    justify-content: center; /* Center filter form items */
+}
+
+.filter-form label {
+    font-weight: bold;
+    margin-right: 0.5rem; /* 8px */
+}
+
+.add-task-form input[type="text"] {
+    flex-grow: 1;
+}
+
+input[type="text"] {
+    text-align: center;
+    height: 3.75rem; /* 60px / 16px */
+    /* top: 0.625rem; Position with flex/grid or margins, not top */
+    border: none;
+    background: transparent;
+    font-size: 1.25rem; /* 20px / 16px */
+    font-weight: 200; /* Already on body, but can be specific */
+    width: 100%; /* Make it take available width, flex-grow handles it in add-task-form */
+    /* width: 19.5625rem; /* 313px - REMOVED, use flex-grow or % */
+    padding: 0.5rem; /* Added some padding */
+}
+
+input[type="text"]:focus {
+    outline: none;
+    box-shadow: inset 0 -0.1875rem 0 0 #A683E3; /* 3px */
+}
+
+::placeholder {
+    color: grey;
+    opacity: 1;
+}
+
+/* Buttons */
+button[type="submit"], /* More specific for submit buttons */
+.edit-submit-btn {
+    min-height: 3.125rem; /* 50px */
+    width: 3.125rem; /* 50px */
+    border-radius: 50%;
+    border: none; /* Simpler than border-color transparent, border-width 0 */
+    background-color: #A683E3;
+    color: #fff;
+    font-size: 1.875rem; /* 30px */
+    /* padding-bottom: 0.375rem; /* 6px - better to use line-height or flex for icon centering */
+    line-height: 1; /* Helps center + if it's text */
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.add-task-form button[type="submit"]:hover,
+.edit-submit-btn:hover {
+    background-color: #8e6ac5; /* Darker purple */
+}
+
+
+.task-priority-select {
+    padding: 0.625rem; /* 10px */
+    border-radius: 0.1875rem; /* 3px */
+    border: 0.0625rem solid #ccc; /* 1px */
+    height: 2.5rem; /* 40px */
+    font-family: inherit;
+    font-size: 1rem; /* 16px */
+}
+
+.form-divider {
+    margin: 1.25rem 0; /* 20px */
+    border: 0;
+    border-top: 0.0625rem solid #eee; /* 1px */
+}
+
+.task-priority-display {
+    font-size: 0.8em; /* Relative to parent p tag's font-size */
+    margin-left: 0.625rem; /* 10px */
+    color: #777;
+    font-style: italic;
+}
+
+/* Edit Button on List Page */
+.edit-btn {
+    padding: 0.3125rem 0.625rem; /* 5px 10px */
+    margin-left: 0.625rem; /* 10px */
+    background-color: #4CAF50; /* Green */
+    color: white !important; /* Ensure text color override */
+    text-decoration: none;
+    border-radius: 0.1875rem; /* 3px */
+    font-size: 0.875rem; /* 14px */
+    border: none;
+    white-space: nowrap; /* Prevent button text from wrapping */
+    transition: background-color 0.2s;
+}
+.edit-btn:hover {
+    background-color: #45a049;
+    border: none; /* Ensure no border on hover if global 'a:hover' adds one */
+}
+
+/* Edit Page Specific Styles */
+.box form .item input[type="text"] { /* For input on edit page */
+    width: 100%; /* Let it take full width of its container */
+    text-align: left; /* Usually better for editing text */
+    margin: 0; /* Reset margin if any general input styling applies */
+}
+.box form .item label { /* If you add labels to edit.ejs */
+    display: block;
+    margin-bottom: 0.25rem; /* 4px */
+    font-weight: bold;
+}
+
+
+.edit-submit-btn { /* This was for the edit page, but now combined with general submit button */
+    /* padding-right: 3.75rem; /* 60px - remove if button is round */
+    /* margin-bottom: 0.625rem; /* 10px */
+    /* margin-top: 0.625rem; /* 10px */
+    /* If edit submit button is not round, define its style separately */
+    width: auto; /* Allow width to be based on content for non-round buttons */
+    min-width: 3.125rem; /* 50px */
+    border-radius: 0.3125rem; /* 5px for non-round */
+    padding: 0.625rem 1rem; /* 10px 16px */
+}
+
+.cancel-btn {
+    display: inline-block;
+    padding: 0.625rem 0.9375rem; /* 10px 15px */
+    margin-top: 0.625rem; /* 10px (was 20px, adjusted) */
+    margin-right: 0.625rem; /* 10px */
+    text-decoration: none;
+    border-radius: 0.3125rem; /* 5px */
+    font-size: 1rem; /* 16px */
+    cursor: pointer;
+    background-color: #ccc;
+    color: #333 !important; /* Ensure text color override */
+    border: 0.0625rem solid #bbb; /* 1px */
+    transition: background-color 0.2s, border-color 0.2s;
+}
+.cancel-btn:hover {
+    background-color: #bbb;
+    border-color: #aaa;
+}
+
+/* Footer Styles */
+.site-footer {
+    background-color: #333;
+    color: #ccc;
+    text-align: center;
+    padding: 1.25rem 0; /* 20px / 16px */
+    font-size: 0.875rem; /* 14px / 16px */
+    margin-top: auto; /* Pushes footer to bottom with flexbox body */
+    width: 100%; /* Ensure it takes full width */
+}
+
+.site-footer p {
+    margin: 0;
+    color: #ccc; /* Already set on .site-footer but good to be specific */
+    font-weight: normal; /* Reset if p has other global styles */
+    font-size: inherit; /* Inherit from .site-footer */
+}
+
+
+
+
+
+
+
+/* ========================================= */
+/*          RESPONSIVE STYLES              */
+/* ========================================= */
+
+/* Medium Devices (Tablets, larger phones - e.g., up to 768px) */
+/* 768px / 16px = 48rem */
+@media (max-width: 48rem) {
+    .box {
+        max-width: 90%; /* Allow box to take more width */
+        margin: 2rem auto; /* Reduce top/bottom margin */
+    }
+
+    h1 {
+        font-size: 1.8rem; /* Slightly smaller H1 */
+        padding: 0.5rem;
+    }
+
+    .item p {
+        font-size: 1.1rem; /* Slightly smaller task text */
+        padding: 1rem;
+    }
+
+    input[type="text"],
+    .task-priority-select,
+    .add-task-form button[type="submit"], /* Target only add task button if it's round */
+    .edit-submit-btn, /* If this is also a round button */
+    .cancel-btn {
+        font-size: 1rem; /* Adjust form element font sizes */
+    }
+    
+    .task-priority-select {
+        height: 2.25rem; /* 36px */
+        padding: 0.5rem;
+    }
+
+    .add-task-form input[type="text"] {
+        height: 2.5rem; /* 40px */
+    }
+    
+    .add-task-form button[type="submit"] { /* If '+' button */
+        min-height: 2.5rem; /* 40px */
+        width: 2.5rem; /* 40px */
+        font-size: 1.5rem; /* 24px */
+    }
+    
+    .edit-btn {
+        font-size: 0.8rem; /* Smaller edit button text */
+        padding: 0.25rem 0.5rem;
+    }
+
+    /* Edit page buttons might need adjustments too */
+    .edit-submit-btn, 
+    .cancel-btn {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.9rem;
+    }
+}
+
+
+@media (max-width: 37.5rem) {
+    html {
+        font-size: 93.75%; /* Makes 1rem = 15px, effectively scaling down everything a bit */
+                           /* Or keep 100% and adjust individual rem values more */
+    }
+
+    .box {
+        max-width: 95%; /* Box takes almost full width */
+        margin: 1.5rem auto;
+        padding: 0.75rem; /* Reduce padding inside .box if needed */
+    }
+    
+    #heading {
+        margin-bottom: 1.5rem; /* Space between header box and content box */
+    }
+
+    h1 {
+        font-size: 1.5rem; /* Smaller H1 on mobile */
+    }
+
+    .add-task-form {
+        flex-direction: column; /* Stack add task elements vertically */
+        gap: 0.5rem; /* Space between stacked elements */
+    }
+
+    .add-task-form input[type="text"],
+    .add-task-form .task-priority-select,
+    .add-task-form button[type="submit"] {
+        width: 100%; /* Make them full width when stacked */
+    }
+
+    .add-task-form button[type="submit"] {
+        border-radius: 0.3125rem; /* Make it a standard button shape */
+        width: auto; /* Auto width based on text */
+        min-height: 2.5rem; /* 40px */
+        padding: 0.5rem 1rem;
+        font-size: 1rem; /* Adjust text if it's not just '+' */
+        /* If still using '+': font-size: 1.5rem; */
+    }
+    
+    .filter-form {
+        flex-direction: column; /* Stack filter elements */
+        align-items: stretch; /* Make select full width */
+        gap: 0.5rem;
+    }
+    .filter-form label {
+        margin-bottom: 0.25rem;
+        text-align: left;
+    }
+    .filter-form .task-priority-select {
+        width: 100%;
+    }
+
+    .item-container {
+        flex-wrap: wrap; /* Allow wrapping if needed, though space-between should handle it */
+        padding-left: 0.5rem; /* Adjust priority border padding */
+    }
+
+    .item {
+        min-height: auto; /* Allow height to be based on content */
+        padding: 0.5rem 0; /* Adjust item padding */
+    }
+
+    .item p {
+        font-size: 1rem; /* Standard text size on mobile */
+        padding: 0.75rem;
+    }
+
+    input[type="checkbox"] {
+        margin: 0.75rem;
+    }
+    
+    .edit-btn {
+        padding: 0.4rem 0.8rem; 
+        font-size: 0.875rem;
+        margin-top: 0.5rem; /* If it wraps, add some space */
+        width: 100%; /* Example: Make edit button full width under task */
+        text-align: center;
+        margin-left: 0; /* Reset margin-left if full width */
+    }
+
+
+    /* Edit Page might need specific adjustments too */
+    .box form .item input[type="text"], /* For edit page input */
+    .box form .item .task-priority-select { /* For edit page select */
+        font-size: 1rem;
+    }
+    .edit-submit-btn,
+    .cancel-btn {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 0.5rem; /* Space between stacked buttons */
+        display: block; /* Ensure they take full width */
+    }
+    .cancel-btn:last-child {
+        margin-bottom: 0;
+    }
+
+    .site-footer {
+        padding: 1rem 0;
+        font-size: 0.8rem;
+    }
+}

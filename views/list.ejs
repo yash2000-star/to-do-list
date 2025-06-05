@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do-List</title>
+    <link rel="stylesheet" href="css/style.css"> <!-- Path relative to the 'public' folder -->
+</head>
+<body>
+    <div class="box" id="heading"> <!-- Ensure your CSS #heading targets this correctly -->
+        <h1>Todo list</h1>
+    </div>
+
+    <div class="box">
+        <!-- Form to add a new task - CORRECTED -->
+        <form action="/" method="POST" class="add-task-form" onsubmit="return validateAddTaskForm()">
+            <input type="text" name="elel" id="taskInput" placeholder="Enter the task" autocomplete="off">
+            <select name="priority" id="taskPriority" class="task-priority-select">
+                <option value="High">High</option>
+                <option value="Medium" selected>Medium</option>
+                <option value="Low">Low</option>
+            </select>
+            <button type="submit">+</button>
+        </form>
+        <hr class="form-divider"> 
+
+        <form action="/" method="GET" class="filter-form">
+            <label for="priorityFilter">Filter by Priority:</label>
+            <select name="filter" id="priorityFilter" onchange="this.form.submit()" class="task-priority-select">
+                <option value="all" <%= (typeof currentFilter !== 'undefined' && currentFilter === 'all') ? 'selected' : '' %>>All</option>
+                <option value="High" <%= (typeof currentFilter !== 'undefined' && currentFilter === 'High') ? 'selected' : '' %>>High</option>
+                <option value="Medium" <%= (typeof currentFilter !== 'undefined' && currentFilter === 'Medium') ? 'selected' : '' %>>Medium</option>
+                <option value="Low" <%= (typeof currentFilter !== 'undefined' && currentFilter === 'Low') ? 'selected' : '' %>>Low</option>
+            </select>
+        </form>
+        <hr class="form-divider">
+
+        <% ejes.forEach(function(task) { %>
+            <div class="item-container priority-<%= task.priority ? task.priority.toLowerCase() : 'medium' %>">
+                <form action="/delete" method="POST" class="task-item-form delete-form">
+                    <div class="item">
+                        <input type="checkbox" name="checkbox1" value="<%= task.id %>" onchange="this.form.submit()">
+                        <p>
+                            <%= task.name %> 
+                            <% if (task.priority) { %>
+                                <span class="task-priority-display">(<%= task.priority %>)</span>
+                            <% } %>
+                        </p>
+                    </div>
+                </form>
+                <a href="/edit/<%= task.id %>" class="edit-btn">Edit</a>
+            </div>
+        <% }) %>
+    </div>
+
+     <footer class="site-footer">
+        <p>© <%= new Date().getFullYear() %> Your To-Do App. All rights reserved.</p>
+    </footer>
+
+     <script>
+        function validateAddTaskForm() {
+            const taskInput = document.getElementById('taskInput');
+            const taskValue = taskInput.value.trim(); // Get value and remove leading/trailing whitespace
+
+            if (taskValue === "") {
+                alert("Please enter a task before adding!");
+                taskInput.focus(); // Optional: put focus back on the input field
+                return false; // Prevent form submission
+            }
+            return true; // Allow form submission
+        }
+    </script>
+</body>
+</html>
